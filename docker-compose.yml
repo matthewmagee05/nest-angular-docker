@@ -1,21 +1,25 @@
 version: "3"
 
 services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3050:80"
   client:
+    stdin_open: true
     build:
       dockerfile: Dockerfile.dev
       context: ./my-app
     volumes:
       - /app/node_modules
       - ./my-app:/app
-    ports:
-      - 4200:4200
-  backend:
+  api:
     build:
       dockerfile: Dockerfile.dev
       context: ./backend
     volumes:
       - /app/node_modules
       - ./backend:/app
-    ports:
-      - 3005:3000
